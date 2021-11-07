@@ -9,13 +9,8 @@ USE SELS ;
 GO
 
 /*Create user table */
-CREATE TABLE dbo.[User] (
-ID INT IDENTITY (1,1),
-Username  VARCHAR (MAX),
-Password VARCHAR(MAX),
-Phonenumber VARCHAR(10)
-)
+CREATE TABLE [dbo].[User] ([ID] INT IDENTITY (1,1), [Username]  VARCHAR (MAX), [Password] VARCHAR(MAX), [Phonenumber] VARCHAR(10));
 
-create table Categories (id int identity(1,1), [name] nvarchar(50), [Description] nvarchar(max), photo nvarchar(max))
+CREATE TABLE [dbo].[Category] ([ID] int identity(1,1), [Name] nvarchar(50), [Description] nvarchar(max), [Photo] nvarchar(max));
 
-create table Lessons (id int identity(1,1), [name] nvarchar(50), [Description] nvarchar(max), VedioLink nvarchar(max))
+CREATE TABLE [dbo].[Lesson] ([ID] int identity(1,1), [Name] nvarchar(50), [Description] nvarchar(max), [VideoLink] nvarchar(max));

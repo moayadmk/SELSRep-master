@@ -15,14 +15,8 @@ namespace SELS.Controllers
     {
         private const string cCLASS_NAME = "UserController";
         #region
-        /// <summary>
-        /// To add new User in data base 
-        /// </summary>
-        /// <param name="pUser">User object</param>
-        /// <returns></returns>
         [HttpPost]
-        [Route("api/user/signup")]
-        public string SignUp (User pUser)
+        public string Post (User pUser)
         {
             try
             {
@@ -36,10 +30,24 @@ namespace SELS.Controllers
                 return eResult.Error.ToString();
             }
         }
-
+        [HttpPut]
+        public string Put(User User)
+        {
+            try
+            {
+                eResult tResult = eResult.Error;
+                tResult = Manager_BL.UserImplementation.EditUser(User);
+                return tResult.ToString();
+            }
+            catch (Exception ex)
+            {
+                Logger.Logeer.Write_Log(cCLASS_NAME + " " + ex.Message);
+                return eResult.Error.ToString();
+            }
+        }
         [HttpGet]
         [Route("api/user/signin")]
-        public string SignIn(string pUserName,string pPassword)
+        public string SignIn(string pUserName, string pPassword)
         {
             try
             {
