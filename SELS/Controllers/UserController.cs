@@ -7,6 +7,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using SELS_Models;
 
 namespace SELS.Controllers
@@ -23,6 +25,7 @@ namespace SELS.Controllers
                 eResult tResult = eResult.Error;
                 tResult = Manager_BL.UserImplementation.SignUp(pUser);
                 return tResult.ToString();
+
             }
             catch (Exception ex)
             {
@@ -62,6 +65,6 @@ namespace SELS.Controllers
             }
         }
         #endregion
-
+        
     }
 }

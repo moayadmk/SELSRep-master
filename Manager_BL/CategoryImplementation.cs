@@ -80,5 +80,19 @@ namespace Manager_BL
                 return eResult.Error;
             }
         }
+        public static eResult InsertCategroiesPerUser(CategoryPerUser pCategoryPerUser)
+        {
+            try
+            {
+                eResult tResult = eResult.Error;
+                tResult = Database_DL.CategoryEntity.InsertCategroiesPerUser(pCategoryPerUser);
+                return tResult;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(cCLASS_NAME + " " + ex.Message);
+                return eResult.Error;
+            }
+        }
     }
 }

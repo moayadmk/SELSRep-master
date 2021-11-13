@@ -93,7 +93,7 @@ namespace Database_DL
                     con.Open();
                     tCommand.ExecuteNonQuery();
                     con.Close();
-                    return eResult.Sucess;
+                    tResult = eResult.Sucess;
                 }
                 return tResult;
             }
@@ -144,6 +144,67 @@ namespace Database_DL
                 {
                     tCommand.CommandType = CommandType.Text;
                     tDatatable.Fill(tTable);
+                    tResult = eResult.Sucess;
+                }
+                return tResult;
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(cCLASS_NAME + " " + ex.Message);
+                return eResult.Error;
+            }
+        }
+        public static eResult InsertCategroiesPerUser (CategoryPerUser pCategoryPerUser)
+        {
+            try
+            {
+                eResult tResult = eResult.Error;
+                tResult = DeleteAllCategroiesPerUser(pCategoryPerUser.UserID);
+                if (tResult == eResult.Sucess)
+                {
+                    string tQuery = @"
+                                    INSERT INTO dbo.[CategoryPerUser] VALUES";
+                    for  (int tIndex = 0; tIndex< pCategoryPerUser.CategoriesID.Count; ++tIndex)
+                    {
+                        tQuery += "("+pCategoryPerUser.UserID+","+ pCategoryPerUser.CategoriesID[tIndex]+ ")";
+                        if (tIndex+1 < pCategoryPerUser.CategoriesID.Count)
+                        {
+                            tQuery += ",";
+                        }
+                    }
+                    DataTable tTable = new DataTable();
+                    using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["UserAppDB"].ConnectionString))
+                    using (var tCommand = new SqlCommand(tQuery, con))
+                    using (var tDatatable = new SqlDataAdapter(tCommand))
+                    {
+                        tCommand.CommandType = CommandType.Text;
+                        tDatatable.Fill(tTable);
+                        tResult = eResult.Sucess;
+                    }
+                }
+                return tResult; 
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(cCLASS_NAME + " " + ex.Message);
+                return eResult.Error;
+            }
+        }
+        public static eResult DeleteAllCategroiesPerUser (int pUserID)
+        {
+            try
+            {
+                eResult tResult = eResult.Error;
+                string tQuery = @"delete from CategoryPerUser where UserID = " + pUserID;
+                DataTable tTable = new DataTable();
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["UserAppDB"].ConnectionString))
+                using (var tCommand = new SqlCommand(tQuery, con))
+                {
+                    con.Open();
+                    tCommand.ExecuteNonQuery();
+                    con.Close();
                     tResult = eResult.Sucess;
                 }
                 return tResult;
