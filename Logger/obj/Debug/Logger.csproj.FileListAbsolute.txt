@@ -1,0 +1,6 @@
+C:\Users\hamza\Source\Repos\SELSRep-master\Logger\bin\Debug\Logger.dll
+C:\Users\hamza\Source\Repos\SELSRep-master\Logger\bin\Debug\Logger.pdb
+C:\Users\hamza\Source\Repos\SELSRep-master\Logger\obj\Debug\Logger.csproj.AssemblyReference.cache
+C:\Users\hamza\Source\Repos\SELSRep-master\Logger\obj\Debug\Logger.csproj.CoreCompileInputs.cache
+C:\Users\hamza\Source\Repos\SELSRep-master\Logger\obj\Debug\Logger.dll
+C:\Users\hamza\Source\Repos\SELSRep-master\Logger\obj\Debug\Logger.pdb
