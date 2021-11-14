@@ -30,5 +30,22 @@ namespace SELS.Controllers
                 return eResult.Error.ToString();
             }
         }
+
+        [HttpGet]
+        public List<Category> Get(int id)
+        {
+            try
+            {
+                eResult tResult = eResult.Error;
+                List<Category> tCategories = new List<Category>();
+                tResult = Manager_BL.CategoryImplementation.GetCategroiesPerUser(ref tCategories, id);
+                return tCategories;
+            }
+            catch (Exception ex)
+            {
+                Logger.Logeer.Write_Log(cCLASS_NAME + " " + ex.Message);
+                return null;
+            }
+        }
     }
 }

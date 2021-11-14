@@ -32,6 +32,19 @@ namespace Database_DL
                     tDatatable.Fill(tTable);
                     tResult = eResult.Sucess;
                 }
+                if(tResult == eResult.Sucess)
+                {
+                    tQuery = @"INSERT INTO dbo.[FilledTable] VALUES ((select top(1) id from [User] order by id desc),0)";
+                    tTable = new DataTable();
+                    using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["UserAppDB"].ConnectionString))
+                    using (var tCommand = new SqlCommand(tQuery, con))
+                    using (var tDatatable = new SqlDataAdapter(tCommand))
+                    {
+                        tCommand.CommandType = CommandType.Text;
+                        tDatatable.Fill(tTable);
+                        tResult = eResult.Sucess;
+                    }
+                }
                 return tResult;
             }
             catch (Exception ex)
@@ -115,6 +128,30 @@ namespace Database_DL
             {
 
                 Console.WriteLine(cCLASS_NAME + " " + ex.Message);
+                return eResult.Error;
+            }
+        }
+        public static eResult IsFilled(FilledTable pFilledTable)
+        {
+            try
+            {
+                eResult tResult = eResult.NotFound;
+                SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["UserAppDB"].ConnectionString);
+                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("SELECT * FROM [FilledTable] WHERE [UserID]='" + pFilledTable.UserID + "'", con);
+                DataTable dataTable = new DataTable();
+                sqlDataAdapter.Fill(dataTable);
+                foreach (DataRow row in dataTable.Rows)
+                {
+                    pFilledTable.ID = Convert.ToInt32(row["ID"].ToString());
+                    pFilledTable.UserID = Convert.ToInt32(row["UserID"]);
+                    pFilledTable.IsCategoryFilled = Convert.ToBoolean(row["IsCategoryFilled"]);
+                    tResult = eResult.Sucess;
+                }
+                return tResult;
+            }
+            catch (Exception ex)
+            {
+                Logger.Logeer.Write_Log(ex.Message);
                 return eResult.Error;
             }
         }

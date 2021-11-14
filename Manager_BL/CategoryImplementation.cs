@@ -94,5 +94,19 @@ namespace Manager_BL
                 return eResult.Error;
             }
         }
+        public static eResult GetCategroiesPerUser(ref List<Category> pCategoryList, int pUserId)
+        {
+            try
+            {
+                eResult tResult = eResult.Error;
+                tResult = Database_DL.CategoryEntity.GetCategroiesPerUser(ref pCategoryList, pUserId);
+                return tResult;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(cCLASS_NAME + " " + ex.Message);
+                return eResult.Error;
+            }
+        }
     }
 }

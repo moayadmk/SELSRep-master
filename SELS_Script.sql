@@ -1,14 +1,13 @@
 /*Create new database name is SELS */
-USE MASTER;
-GO 
+
 IF NOT EXISTS(SELECT * FROM sys.databases WHERE name = 'SELS')
 BEGIN
-CREATE DATABASE SELS ;
+CREATE DATABASE SELS;
 END
 GO
 
 /*Go to the SELS data base to accses the data base*/
-USE SELS ;
+USE SELS;
 GO
 
 /*Create user table */
@@ -34,9 +33,13 @@ GO
 /*Create Lesson table */
 IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = N'CategoryPerUser')
 BEGIN
-CREATE TABLE [dbo].[CategoryPerUser] ([ID] int identity(1,1)  PRIMARY KEY,UserID INT FOREIGN KEY REFERENCES [User](ID),CategoryID INT FOREIGN KEY REFERENCES Category(ID));
+CREATE TABLE [dbo].[CategoryPerUser] ([ID] int identity(1,1)  PRIMARY KEY,UserID INT FOREIGN KEY REFERENCES [dbo].[User](ID),CategoryID INT FOREIGN KEY REFERENCES Category(ID));
 END
 GO
 
-
-
+/*Create Lesson table */
+IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = N'FilledTable')
+BEGIN
+CREATE TABLE [dbo].[FilledTable] ([ID] int identity(1,1)  PRIMARY KEY, UserID INT FOREIGN KEY REFERENCES [dbo].[User](ID), [IsCategoryFilled] bit);
+END
+GO

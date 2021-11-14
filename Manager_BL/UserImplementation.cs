@@ -69,13 +69,26 @@ namespace Manager_BL
             }
 
         }
-
         public static eResult SignIn(string pUserName, string pPassword)
         {
             try
             {
                 eResult tResult = eResult.Error;
                 tResult = Database_DL.UserEntity.SignIn(pUserName, pPassword);
+                return tResult;
+            }
+            catch (Exception ex)
+            {
+                Logger.Logeer.Write_Log(ex.Message);
+                return eResult.Error;
+            }
+        }
+        public static eResult IsFilled(FilledTable pFilledTable)
+        {
+            try
+            {
+                eResult tResult = eResult.Error;
+                tResult = Database_DL.UserEntity.IsFilled(pFilledTable);
                 return tResult;
             }
             catch (Exception ex)

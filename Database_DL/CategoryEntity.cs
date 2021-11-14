@@ -182,6 +182,19 @@ namespace Database_DL
                         tDatatable.Fill(tTable);
                         tResult = eResult.Sucess;
                     }
+                    if(tResult == eResult.Sucess)
+                    {
+                        tQuery = @"UPDATE dbo.[FilledTable] SET IsCategoryFilled = 1 WHERE ID = " + pCategoryPerUser.UserID;
+                        tTable = new DataTable();
+                        using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["UserAppDB"].ConnectionString))
+                        using (var tCommand = new SqlCommand(tQuery, con))
+                        using (var tDatatable = new SqlDataAdapter(tCommand))
+                        {
+                            tCommand.CommandType = CommandType.Text;
+                            tDatatable.Fill(tTable);
+                            tResult = eResult.Sucess;
+                        }
+                    }
                 }
                 return tResult; 
             }
@@ -212,6 +225,42 @@ namespace Database_DL
             catch (Exception ex)
             {
 
+                Console.WriteLine(cCLASS_NAME + " " + ex.Message);
+                return eResult.Error;
+            }
+        }
+        public static eResult GetCategroiesPerUser(ref List<Category> pCategoryList, int pUserId)
+        {
+            try
+            {
+                eResult tResult = eResult.Error;
+                string tQuery = @"Select Category.* from Category inner join CategoryPerUser on Category.ID = CategoryPerUser.CategoryID inner join [User] on CategoryPerUser.UserID = [User].ID and [User].ID = " + pUserId.ToString();
+                DataTable tTable = new DataTable();
+                using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["UserAppDB"].ConnectionString))
+                using (var tCommand = new SqlCommand(tQuery, con))
+                using (var tDatatable = new SqlDataAdapter(tCommand))
+                {
+                    List<Category> tCategoryList = new List<Category>();
+                    tCommand.CommandType = CommandType.Text;
+                    tDatatable.Fill(tTable);
+                }
+                foreach (DataRow dataRow in tTable.Rows)
+                {
+                    Category category = new Category();
+                    category.ID = Convert.ToInt32(dataRow["ID"]);
+                    category.Name = dataRow["Name"].ToString();
+                    category.Description = dataRow["Description"].ToString();
+                    category.Photo = dataRow["Photo"].ToString();
+                    pCategoryList.Add(category);
+                }
+                if (pCategoryList.Count > 0)
+                {
+                    tResult = eResult.Sucess;
+                }
+                return tResult;
+            }
+            catch (Exception ex)
+            {
                 Console.WriteLine(cCLASS_NAME + " " + ex.Message);
                 return eResult.Error;
             }

@@ -64,7 +64,25 @@ namespace SELS.Controllers
                 return eResult.Error.ToString();
             }
         }
+        [HttpGet]
+        [Route("api/user/IsFilled")]
+        public FilledTable IsFilled(int pUserId)
+        {
+            try
+            {
+                FilledTable pFilledTable = new FilledTable();
+                pFilledTable.UserID = pUserId;
+                eResult tResult = eResult.Error;
+                tResult = Manager_BL.UserImplementation.IsFilled(pFilledTable);
+                return pFilledTable;
+            }
+            catch (Exception ex)
+            {
+                Logger.Logeer.Write_Log(cCLASS_NAME + " " + ex.Message);
+                return null;
+            }
+        }
         #endregion
-        
+
     }
 }
